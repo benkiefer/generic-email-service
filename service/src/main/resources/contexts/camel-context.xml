@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <camel:camelContext id="emailServiceCamel" errorHandlerRef="emailErrorHandler">
+        <camel:errorHandler id="emailErrorHandler" deadLetterUri="direct:emailErrors"
+                            type="DeadLetterChannel" useOriginalMessage="true">
+            <camel:redeliveryPolicy maximumRedeliveries="${email.service.max.redeliveries}"
+                                    useExponentialBackOff="${email.service.use.exponential.back.off}"/>
+        </camel:errorHandler>
+
+        <camel:endpoint id="emailIn" uri="jms:queue:${email.service.in}"/>
+        <camel:endpoint id="emailErrors" uri="jms:queue:${email.service.in}"/>
+
+        <camel:route id="emailProcessing">
+            <camel:from ref="emailIn"/>
+            <camel:bean ref="emailSender" method="sendMessage"/>
+        </camel:route>
+
+        <camel:route id="emailErrorRoute">
+            <camel:from uri="direct:errors"/>
+            <camel:to ref="emailErrors"/>
+        </camel:route>
+
+    </camel:camelContext>
+
+</beans>

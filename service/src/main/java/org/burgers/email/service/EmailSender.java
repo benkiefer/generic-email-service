@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailSender {
     public static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
-    public void doSomething(){
+    public void sendMessage(){
         logger.info("logging works");
     }
 }
