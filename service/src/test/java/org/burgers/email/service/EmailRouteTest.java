@@ -1,6 +1,7 @@
 package org.burgers.email.service;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
