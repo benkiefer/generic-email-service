@@ -9,6 +9,7 @@ The project is a Maven-generated WAR - so you can either deploy it directly with
  - Establish email request contract
  - Camel route for message processing
  - Populate templates with data from request
+ - Validation
  - Find an email server for testing
  - Error Handling
  - Logging
