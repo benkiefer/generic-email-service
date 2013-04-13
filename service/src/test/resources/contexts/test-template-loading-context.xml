@@ -7,9 +7,6 @@
     <context:property-placeholder location="classpath*:test-email-service.properties"/>
 
     <import resource="classpath:contexts/scanning-context.xml"/>
-    <import resource="classpath:contexts/camel-context.xml"/>
-    <import resource="classpath:contexts/logging-context.xml"/>
     <import resource="classpath:contexts/template-config-context.xml"/>
-    <import resource="classpath:contexts/queue-context.xml"/>
 
 </beans>

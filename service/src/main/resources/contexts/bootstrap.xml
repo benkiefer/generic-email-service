@@ -10,5 +10,6 @@
     <import resource="classpath:contexts/logging-context.xml"/>
     <import resource="classpath:contexts/camel-context.xml"/>
     <import resource="classpath:contexts/queue-context.xml"/>
+    <import resource="classpath:contexts/template-config-context.xml"/>
 
 </beans>
