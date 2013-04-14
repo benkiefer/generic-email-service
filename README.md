@@ -6,7 +6,7 @@ This project's going to be a simple queue-based email service. You point it at y
 The project is a Maven-generated WAR - so you can either deploy it directly with your templates in the template directory, check out the source and hack it yourself, or you can overlay it by depending on the war and overlaying the appropriate files.
 
 #Todo
- - Establish email request contract (XML)
+ - Create custom namespace to simplify client use.
  - Camel route for message processing
  - Populate templates with data from request
  - Validation
