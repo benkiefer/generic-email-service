@@ -27,4 +27,12 @@ abstract public class GenericClient {
     }
 
     abstract public String getQueueName();
+
+    public MessageBuilder getMessageBuilder() {
+        return messageBuilder;
+    }
+
+    public ConnectionFactory getConnectionFactory() {
+        return connectionFactory;
+    }
 }

@@ -13,4 +13,8 @@ public class MessageBuilder {
     public void setxStream(XStream xStream) {
         this.xStream = xStream;
     }
+
+    public XStream getxStream() {
+        return xStream;
+    }
 }
