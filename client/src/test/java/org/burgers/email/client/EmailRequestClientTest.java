@@ -27,7 +27,7 @@ public class EmailRequestClientTest {
     @Mock
     private ConnectionFactory connectionFactory;
     @Mock
-    private EmailRequest emailRequest;
+    private TemplateEmailRequest templateEmailRequest;
     @Mock
     private JmsTemplate jmsTemplate;
     @Mock
@@ -37,7 +37,7 @@ public class EmailRequestClientTest {
 
     @Before
     public void setup() throws Exception {
-        when(messageBuilder.build(emailRequest)).thenReturn(MESSAGE);
+        when(messageBuilder.build(templateEmailRequest)).thenReturn(MESSAGE);
         client.setQueueName(QUEUE_NAME);
         PowerMockito.whenNew(JmsTemplate.class).withArguments(connectionFactory).thenReturn(jmsTemplate);
         PowerMockito.whenNew(SimpleMessageCreator.class).withArguments(MESSAGE).thenReturn(simpleMessageCreator);
@@ -45,7 +45,7 @@ public class EmailRequestClientTest {
 
     @Test
     public void sendMessage(){
-        client.send(emailRequest);
+        client.send(templateEmailRequest);
         verify(jmsTemplate).setPubSubDomain(true);
         verify(jmsTemplate).setDefaultDestinationName(QUEUE_NAME);
         verify(jmsTemplate).send(simpleMessageCreator);

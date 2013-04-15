@@ -1,39 +1,70 @@
 package org.burgers.email.service;
 
+import freemarker.core.Environment;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:contexts/test-template-loading-context.xml"})
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(EmailContentBuilder.class)
 public class EmailContentBuilderTest {
-    public static final String TEMPLATE_NAME = "test.template";
-
-    @Autowired
-    private EmailContentBuilder builder;
-
-    private Map<String, String> properties;
+    public static final String TEMPLATE_NAME = "template";
+    public static final String MESSAGE = "message";
+    private Map<String, String> map;
+    @Mock
+    private Configuration configuration;
+    @Mock
+    private Template template;
+    @InjectMocks
+    private EmailContentBuilder builder = new EmailContentBuilder();
+    @Mock
+    private StringWriter stringWriter;
 
     @Before
-    public void setup(){
-        properties = new HashMap<String, String>();
+    public void setup() throws Exception {
+        map = new HashMap<String, String>();
+        PowerMockito.whenNew(StringWriter.class).withNoArguments().thenReturn(stringWriter);
     }
 
     @Test
-    public void buildFrom() throws IOException, TemplateException {
-        properties.put("name", "Testing");
-        String result = builder.buildFrom(TEMPLATE_NAME, properties);
-        assertTrue(result.contains("My name is Testing."));
+    public void happy_path() throws IOException, TemplateException {
+        when(configuration.getTemplate(TEMPLATE_NAME)).thenReturn(template);
+        when(stringWriter.toString()).thenReturn(MESSAGE);
+        assertEquals(MESSAGE, builder.buildFrom(TEMPLATE_NAME, map));
+        verify(template).process(map, stringWriter);
+    }
+
+    @Test(expected = TemplateProcessingException.class)
+    public void io_exception() throws IOException {
+        doThrow(new IOException()).when(configuration).getTemplate(TEMPLATE_NAME);
+
+        builder.buildFrom(TEMPLATE_NAME, map);
+    }
+
+    @Test(expected = TemplateProcessingException.class)
+    public void template_exception() throws IOException, TemplateException {
+        when(configuration.getTemplate(TEMPLATE_NAME)).thenReturn(template);
+        doThrow(new TemplateException(Environment.getCurrentEnvironment())).when(template).process(map, stringWriter);
+
+        builder.buildFrom(TEMPLATE_NAME, map);
     }
 
 }

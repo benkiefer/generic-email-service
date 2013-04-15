@@ -3,7 +3,7 @@ package org.burgers.email.client;
 import java.util.List;
 import java.util.Map;
 
-public class EmailRequest {
+public class TemplateEmailRequest {
     private List<String> to;
     private String from;
     private List<String> cc;

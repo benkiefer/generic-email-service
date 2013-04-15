@@ -5,7 +5,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
-import org.burgers.email.client.EmailRequest;
+import org.burgers.email.client.TemplateEmailRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,8 +40,8 @@ public class EmailRouteTest {
         camelContext.start();
     }
 
-    private EmailRequest createFakeRequest(){
-        EmailRequest request = new EmailRequest();
+    private TemplateEmailRequest createFakeRequest(){
+        TemplateEmailRequest request = new TemplateEmailRequest();
         request.setTo(asList("to@test.com"));
         request.setFrom("from@test.com");
         request.setSubject("subject");

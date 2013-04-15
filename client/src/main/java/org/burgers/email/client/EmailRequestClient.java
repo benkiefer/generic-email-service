@@ -5,8 +5,8 @@ import org.burgers.email.client.util.GenericClient;
 public class EmailRequestClient extends GenericClient {
     private String queueName;
 
-    public void send(EmailRequest emailRequest){
-        sendMessage(emailRequest);
+    public void send(TemplateEmailRequest templateEmailRequest){
+        sendMessage(templateEmailRequest);
     }
 
     @Override

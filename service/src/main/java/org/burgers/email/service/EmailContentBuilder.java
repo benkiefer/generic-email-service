@@ -12,14 +12,21 @@ import java.util.Map;
 
 @Component
 public class EmailContentBuilder {
+    private static final String DEFAULT_MESSAGE = "Unable to load templates. Check configuration.";
     @Autowired
     private Configuration configuration;
 
-    public String buildFrom(String templateName, Map<String, String> properties) throws IOException, TemplateException {
-        Template template = configuration.getTemplate(templateName);
-        StringWriter writer = new StringWriter();
-        template.process(properties, writer);
-        return writer.toString();
+    public String buildFrom(String templateName, Map<String, String> properties) {
+        try {
+            Template template = configuration.getTemplate(templateName);
+            StringWriter writer = new StringWriter();
+            template.process(properties, writer);
+            return writer.toString();
+        } catch (IOException e) {
+            throw new TemplateProcessingException(DEFAULT_MESSAGE, e);
+        } catch (TemplateException e){
+            throw new TemplateProcessingException(DEFAULT_MESSAGE, e);
+        }
     }
 
 }
