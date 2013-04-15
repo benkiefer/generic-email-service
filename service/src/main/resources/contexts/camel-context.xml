@@ -5,6 +5,7 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
     <camel:camelContext id="emailServiceCamel" errorHandlerRef="emailErrorHandler">
+
         <camel:errorHandler id="emailErrorHandler" deadLetterUri="direct:emailErrors"
                             type="DeadLetterChannel" useOriginalMessage="true">
             <camel:redeliveryPolicy maximumRedeliveries="${email.service.max.redeliveries}"
@@ -12,10 +13,15 @@
         </camel:errorHandler>
 
         <camel:endpoint id="emailIn" uri="jms:queue:${email.service.in}"/>
-        <camel:endpoint id="emailErrors" uri="jms:queue:${email.service.in}"/>
+        <camel:endpoint id="emailErrors" uri="jms:queue:${email.service.errors}"/>
+
+        <camel:dataFormats>
+            <camel:xstream id="xstream-default"/>
+        </camel:dataFormats>
 
         <camel:route id="emailProcessing">
-            <camel:from ref="emailIn"/>
+            <camel:from uri="direct:in"/>
+            <camel:unmarshal ref="xstream-default"/>
             <camel:bean ref="emailSender" method="sendMessage"/>
         </camel:route>
 
