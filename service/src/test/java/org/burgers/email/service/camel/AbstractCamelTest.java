@@ -54,6 +54,19 @@ abstract public class AbstractCamelTest {
         }
     }
 
+    protected void replaceBeanByIdWith(String routeId, final String beanId, final Object replacementObject) {
+        try {
+            camelContext.getRouteDefinition(routeId).adviceWith(camelContext, new AdviceWithRouteBuilder() {
+                @Override
+                public void configure() throws Exception {
+                    weaveById(beanId).replace().bean(replacementObject);
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @After
     public void preTearDown() {
         mailServer.stop();
