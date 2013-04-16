@@ -5,20 +5,30 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
     <camel:camelContext id="emailServiceCamel" errorHandlerRef="emailErrorHandler">
+        <camel:errorHandler id="emailErrorHandler" deadLetterUri="jms:queue:${email.service.errors.queue}" type="DeadLetterChannel" useOriginalMessage="true">
+            <camel:redeliveryPolicy maximumRedeliveries="${email.service.max.redeliveries}"
+                                    useExponentialBackOff="${email.service.use.exponential.back.off}"/>
+        </camel:errorHandler>
 
-        <camel:errorHandler id="emailErrorHandler" deadLetterUri="direct:emailErrors"
+        <camel:errorHandler id="smtpHandler" deadLetterUri="jms:queue:${email.service.retry.queue}"
                             type="DeadLetterChannel" useOriginalMessage="true">
             <camel:redeliveryPolicy maximumRedeliveries="${email.service.max.redeliveries}"
                                     useExponentialBackOff="${email.service.use.exponential.back.off}"/>
         </camel:errorHandler>
 
-        <!--<camel:endpoint id="emailIn" uri="direct:in"/>-->
-        <camel:endpoint id="emailIn" uri="jms:queue:${email.service.in}"/>
-        <camel:endpoint id="emailErrors" uri="jms:queue:${email.service.errors}"/>
+        <camel:endpoint id="emailIn" uri="jms:queue:${email.service.in.queue}"/>
+        <camel:endpoint id="DLQ" uri="jms:queue:${email.service.errors.queue}"/>
+        <camel:endpoint id="retryQueue" uri="jms:queue:${email.service.retry.queue}"/>
 
         <camel:dataFormats>
             <camel:xstream id="xstream-default"/>
         </camel:dataFormats>
+
+        <!--<camel:onException>-->
+           <!--<camel:exception>org.burgers.email.service.TemplateProcessingException</camel:exception>-->
+           <!--<camel:exception>org.burgers.email.service.ValidationException</camel:exception>-->
+           <!--<camel:to uri="direct:error"/>-->
+        <!--</camel:onException>-->
 
         <camel:route id="emailProcessing">
             <camel:from ref="emailIn"/>
@@ -26,11 +36,21 @@
             <camel:bean ref="emailSender" method="sendMessage"/>
         </camel:route>
 
-        <camel:route id="emailErrorRoute">
-            <camel:from uri="direct:errors"/>
-            <camel:to uri="log:org.burgers.email?level=ERROR&amp;showAll=true"/>
-            <!--<camel:to ref="emailErrors"/>-->
-        </camel:route>
+        <!--<camel:route id="deadLetterRoute">-->
+            <!--<camel:from uri="direct:error"/>-->
+            <!--<camel:multicast>-->
+                <!--<camel:to uri="log:org.burgers.email?level=ERROR&amp;showAll=true"/>-->
+                <!--<camel:to ref="DLQ"/>-->
+            <!--</camel:multicast>-->
+        <!--</camel:route>-->
+
+        <!--<camel:route id="retryRoute">-->
+            <!--<camel:from uri="direct:retryLater"/>-->
+            <!--<camel:multicast>-->
+                <!--<camel:to uri="log:org.burgers.email?level=ERROR&amp;showAll=true"/>-->
+                <!--<camel:to ref="retryQueue"/>-->
+            <!--</camel:multicast>-->
+        <!--</camel:route>-->
 
     </camel:camelContext>
 
