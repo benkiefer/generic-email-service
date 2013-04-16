@@ -1,16 +1,18 @@
 package org.burgers.email.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TemplateEmailRequest {
-    private List<String> to;
+    private List<String> to = new ArrayList<String>();
     private String from;
-    private List<String> cc;
-    private List<String> bcc;
+    private List<String> cc = new ArrayList<String>();
+    private List<String> bcc = new ArrayList<String>();
     private String subject;
     private String templateName;
-    private Map<String, String> propertyMap;
+    private Map<String, String> propertyMap = new HashMap<String, String>();
 
     public List<String> getTo() {
         return to;

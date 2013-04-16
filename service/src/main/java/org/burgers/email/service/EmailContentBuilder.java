@@ -29,4 +29,7 @@ public class EmailContentBuilder {
         }
     }
 
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 }

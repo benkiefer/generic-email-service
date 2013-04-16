@@ -12,6 +12,7 @@
                                     useExponentialBackOff="${email.service.use.exponential.back.off}"/>
         </camel:errorHandler>
 
+        <!--<camel:endpoint id="emailIn" uri="direct:in"/>-->
         <camel:endpoint id="emailIn" uri="jms:queue:${email.service.in}"/>
         <camel:endpoint id="emailErrors" uri="jms:queue:${email.service.errors}"/>
 
@@ -20,14 +21,15 @@
         </camel:dataFormats>
 
         <camel:route id="emailProcessing">
-            <camel:from uri="direct:in"/>
+            <camel:from ref="emailIn"/>
             <camel:unmarshal ref="xstream-default"/>
             <camel:bean ref="emailSender" method="sendMessage"/>
         </camel:route>
 
         <camel:route id="emailErrorRoute">
             <camel:from uri="direct:errors"/>
-            <camel:to ref="emailErrors"/>
+            <camel:to uri="log:org.burgers.email?level=ERROR&amp;showAll=true"/>
+            <!--<camel:to ref="emailErrors"/>-->
         </camel:route>
 
     </camel:camelContext>

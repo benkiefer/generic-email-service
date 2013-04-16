@@ -6,11 +6,9 @@
 
     <context:property-placeholder location="classpath*:test-email-service.properties"/>
 
-    <import resource="classpath:contexts/scanning-context.xml"/>
-    <import resource="classpath:contexts/template-config-context.xml"/>
-
-    <bean class="com.dumbster.smtp.SimpleSmtpServer" init-method="start" destroy-method="stop">
-        <constructor-arg index="0" value="25"/>
+    <bean class="org.burgers.email.service.EmailContentBuilder">
+        <property name="configuration" ref="freemarkerConfig"/>
     </bean>
+    <import resource="classpath:contexts/template-config-context.xml"/>
 
 </beans>
