@@ -13,9 +13,9 @@ The project is a Maven-generated WAR so you can:
  - Property descriptions
  - End to end integration tests at the container level
 
-##Generating the Client Beans
+##Generating the Client
 
-The simplest way to create the client is to use the custom namespace provided.
+The simplest way to create the client is to use the custom namespace provided in your XML application context.
 
     <email:client
         destination="myQueueName"
