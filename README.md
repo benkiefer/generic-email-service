@@ -11,6 +11,7 @@ The project is a Maven-generated WAR so you can:
  - Error Handling
  - License
  - Property descriptions
+ - End to end integration tests at the container level
 
 ##Generating the Client Beans
 
