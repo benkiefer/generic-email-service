@@ -9,6 +9,7 @@
     <bean class="org.burgers.email.service.EmailContentBuilder">
         <property name="configuration" ref="freemarkerConfig"/>
     </bean>
+
     <import resource="classpath:contexts/template-config-context.xml"/>
 
 </beans>

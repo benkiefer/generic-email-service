@@ -12,9 +12,4 @@
     <import resource="classpath:contexts/template-config-context.xml"/>
     <import resource="classpath:contexts/queue-context.xml"/>
 
-    <bean id="mailServer" class="org.subethamail.wiser.Wiser" init-method="start" destroy-method="stop">
-        <property name="port" value="${email.service.port}"/>
-        <property name="hostname" value="${email.service.host}"/>
-    </bean>
-
 </beans>

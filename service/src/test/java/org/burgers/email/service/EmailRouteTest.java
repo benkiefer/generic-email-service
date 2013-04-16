@@ -1,15 +1,14 @@
 package org.burgers.email.service;
 
 import com.thoughtworks.xstream.XStream;
-import org.apache.camel.Endpoint;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.ToDefinition;
 import org.burgers.email.client.TemplateEmailRequest;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,19 +36,23 @@ public class EmailRouteTest {
     public static final String SUBJECT = "subject";
     private static final String NEW_FROM_URI = "direct:testing";
 
-    @EndpointInject(uri = "mock:result")
-    private MockEndpoint errorEndpoint;
+    @EndpointInject(uri = "mock:failure")
+    private MockEndpoint failureEndpoint;
+
+    @EndpointInject(uri = "mock:retry")
+    private MockEndpoint retryEndpoint;
 
     @Autowired
     private ModelCamelContext camelContext;
 
-    @Autowired
     private Wiser mailServer;
 
     private ProducerTemplate template;
 
     @Before
     public void setup() throws Exception {
+        mailServer = new Wiser();
+        mailServer.start();
         template = camelContext.createProducerTemplate();
         camelContext.getRouteDefinition("emailProcessing").adviceWith(camelContext, new AdviceWithRouteBuilder() {
             @Override
@@ -61,7 +64,14 @@ public class EmailRouteTest {
         camelContext.getRouteDefinition("failureRoute").adviceWith(camelContext, new AdviceWithRouteBuilder() {
             @Override
             public void configure() throws Exception {
-                weaveByType(ToDefinition.class).selectLast().replace().to(errorEndpoint);
+                weaveByType(ToDefinition.class).selectLast().replace().to(failureEndpoint);
+            }
+        });
+
+        camelContext.getRouteDefinition("retryRoute").adviceWith(camelContext, new AdviceWithRouteBuilder() {
+            @Override
+            public void configure() throws Exception {
+                weaveByType(ToDefinition.class).selectLast().replace().to(retryEndpoint);
             }
         });
     }
@@ -69,7 +79,7 @@ public class EmailRouteTest {
     @Test
     @DirtiesContext
     public void sendMessage() throws Exception {
-        errorEndpoint.setExpectedMessageCount(0);
+        failureEndpoint.setExpectedMessageCount(0);
 
         template.sendBody(NEW_FROM_URI, new XStream().toXML(createFakeRequest("test.template")));
 
@@ -84,18 +94,33 @@ public class EmailRouteTest {
         assertEquals(TO, asList(message.getHeader("To")).get(0));
         assertEquals(FROM, asList(message.getHeader("From")).get(0));
         assertEquals(SUBJECT, message.getSubject());
-        errorEndpoint.assertIsSatisfied();
+        failureEndpoint.assertIsSatisfied();
     }
 
     @Test
     @DirtiesContext
-    public void sendMessage_error() throws Exception {
-        errorEndpoint.setExpectedMessageCount(1);
+    public void sendMessage_template_error() throws Exception {
+        failureEndpoint.setExpectedMessageCount(1);
 
         template.sendBody(NEW_FROM_URI, new XStream().toXML(createFakeRequest("kaboom")));
         assertEquals(0, mailServer.getMessages().size());
 
-        errorEndpoint.assertIsSatisfied();
+        failureEndpoint.assertIsSatisfied();
+    }
+
+    @Test
+    @DirtiesContext
+    public void sendMessage_smtp_connection_error() throws Exception {
+        mailServer.stop();
+
+        failureEndpoint.setExpectedMessageCount(0);
+        retryEndpoint.setExpectedMessageCount(1);
+
+        template.sendBody(NEW_FROM_URI, new XStream().toXML(createFakeRequest("test.template")));
+        assertEquals(0, mailServer.getMessages().size());
+
+        failureEndpoint.assertIsSatisfied();
+        retryEndpoint.assertIsSatisfied();
     }
 
     private TemplateEmailRequest createFakeRequest(String templateName){
@@ -108,6 +133,11 @@ public class EmailRouteTest {
         propertyMap.put("name", "Testing");
         request.setPropertyMap(propertyMap);
         return request;
+    }
+
+    @After
+    public void tearDown(){
+        mailServer.stop();
     }
 
 }
