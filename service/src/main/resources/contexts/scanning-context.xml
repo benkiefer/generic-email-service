@@ -7,10 +7,10 @@
     <context:component-scan base-package="org.burgers.email.service"/>
 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${email.service.host}"/>
-        <property name="port" value="${email.service.port}"/>
-        <property name="username" value="${email.service.username}"/>
-        <property name="password" value="${email.service.password}"/>
+        <property name="host" value="${email.service.email.server.host}"/>
+        <property name="port" value="${email.service.email.server.port}"/>
+        <property name="username" value="${email.service.email.server.username}"/>
+        <property name="password" value="${email.service.email.server.password}"/>
     </bean>
 
 </beans>

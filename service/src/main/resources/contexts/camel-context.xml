@@ -4,6 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+    <bean id="retryFailedEmailPolicy" class="org.apache.camel.routepolicy.quartz.CronScheduledRoutePolicy">
+        <property name="routeSuspendTime" value="${email.service.retry.suspend.time}"/>
+        <property name="routeResumeTime" value="${email.service.retry.resume.time}"/>
+    </bean>
+
     <camel:camelContext id="emailServiceCamel" errorHandlerRef="dlqErrorHandler">
         <camel:errorHandler id="dlqErrorHandler" deadLetterUri="direct:errors"
                             type="DeadLetterChannel" useOriginalMessage="true"/>
@@ -57,6 +62,11 @@
             <camel:from ref="retryUri"/>
             <camel:to uri="log:org.burgers.email?level=ERROR&amp;showAll=true"/>
             <camel:to ref="retryQueue"/>
+        </camel:route>
+
+        <camel:route id="retryEmailProcessing" autoStartup="true" routePolicyRef="retryFailedEmailPolicy">
+            <camel:from ref="retryQueue"/>
+            <camel:to ref="emailIn"/>
         </camel:route>
 
     </camel:camelContext>

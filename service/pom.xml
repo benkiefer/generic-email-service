@@ -62,6 +62,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-quartz</artifactId>
+        </dependency>
+
+        <dependency>
         	<groupId>org.freemarker</groupId>
         	<artifactId>freemarker</artifactId>
         </dependency>
