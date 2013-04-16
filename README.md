@@ -1,8 +1,8 @@
 ##Generic Email Service
 This project is a simple queue-based email service. You point it at your email server, hook it to a queue, and send it XML messages with the appropriate metadata.
 
-The project is a Maven-generated WAR so you can
- - deploy it directly with your templates in the template directory
+The project is a Maven-generated WAR so you can:
+ - deploy it directly with your templates in the template directory,
  - check out the source and hack it yourself, or
  - depend on the war and overlay the appropriate files.
 
