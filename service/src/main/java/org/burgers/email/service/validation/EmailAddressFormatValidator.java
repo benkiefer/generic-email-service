@@ -1,5 +1,6 @@
 package org.burgers.email.service.validation;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
@@ -19,6 +20,10 @@ public class EmailAddressFormatValidator implements RequestValidator {
     }
 
     public void validate(String value, BindingResult bindingResult){
+        if (StringUtils.isBlank(value)){
+            bindingResult.reject("missing.email.address", "missing email address");
+            return;
+        }
         if (!pattern.matcher(value).matches()){
             bindingResult.reject("invalid.email.address", asList(value).toArray(), "invalid email address");
         }
