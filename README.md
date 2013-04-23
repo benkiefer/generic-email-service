@@ -7,8 +7,7 @@ The project is a Maven-generated WAR so you can:
  - depend on the war and overlay the appropriate files.
 
 ##Todo
- - Error Handling
- - License
+ - Validation
  - Property descriptions
  - End to end integration tests at the container level
 
