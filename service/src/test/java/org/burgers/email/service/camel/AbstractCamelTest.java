@@ -4,6 +4,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.ToDefinition;
+import org.burgers.email.test.support.BaseEmailSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -14,16 +15,13 @@ import org.subethamail.wiser.Wiser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:contexts/test-applicationContext.xml"})
-abstract public class AbstractCamelTest {
+abstract public class AbstractCamelTest extends BaseEmailSupport {
     @Autowired
     protected ModelCamelContext camelContext;
     protected ProducerTemplate producerTemplate;
-    protected Wiser mailServer;
 
     @Before
     public void preSetup() {
-        mailServer = new Wiser();
-        mailServer.start();
         producerTemplate = camelContext.createProducerTemplate();
     }
 
@@ -67,8 +65,4 @@ abstract public class AbstractCamelTest {
         }
     }
 
-    @After
-    public void preTearDown() {
-        mailServer.stop();
-    }
 }

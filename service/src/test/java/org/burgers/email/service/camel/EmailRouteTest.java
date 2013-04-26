@@ -8,11 +8,9 @@ import org.burgers.email.service.EmailSender;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.annotation.DirtiesContext;
-import org.subethamail.wiser.WiserMessage;
 
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
@@ -48,11 +46,9 @@ public class EmailRouteTest extends AbstractCamelTest {
 
         producerTemplate.sendBody(NEW_FROM_URI, new XStream().toXML(createFakeRequest("test.template")));
 
-        List<WiserMessage> messages = mailServer.getMessages();
+        assertMessageCount(1);
 
-        assertEquals(1, messages.size());
-
-        MimeMessage message = messages.get(0).getMimeMessage();
+        MimeMessage message = getMessage(0);
 
         String content = (String) message.getContent();
         assertTrue(content.contains("My name is Testing"));

@@ -62,8 +62,8 @@
         </dependency>
 
         <dependency>
-        	<groupId>org.subethamail</groupId>
-        	<artifactId>subethasmtp-wiser</artifactId>
+        	<groupId>org.burgers</groupId>
+        	<artifactId>email-test-support</artifactId>
             <scope>test</scope>
         </dependency>
 
