@@ -12,10 +12,7 @@ abstract public class GenericClient {
         final String message = messageBuilder.build(request);
         JmsTemplate template = new JmsTemplate(connectionFactory);
 
-        template.setPubSubDomain(true);
-        template.setDefaultDestinationName(getQueueName());
-
-        template.send(new SimpleMessageCreator(message));
+        template.send(getQueueName(), new SimpleMessageCreator(message));
     }
 
     public void setConnectionFactory(ConnectionFactory connectionFactory) {

@@ -46,9 +46,7 @@ public class EmailRequestClientTest {
     @Test
     public void sendMessage(){
         client.send(templateEmailRequest);
-        verify(jmsTemplate).setPubSubDomain(true);
-        verify(jmsTemplate).setDefaultDestinationName(QUEUE_NAME);
-        verify(jmsTemplate).send(simpleMessageCreator);
+        verify(jmsTemplate).send(QUEUE_NAME, simpleMessageCreator);
     }
 
 }
