@@ -17,8 +17,8 @@ abstract public class BaseEmailSupport {
     @Before
     public void email_setup() {
         mailServer = new Wiser();
-        mailServer.setHostname("127.0.0.1");
-        mailServer.setPort(25);
+        mailServer.setHostname(getHost());
+        mailServer.setPort(getPort());
         mailServer.start();
     }
 
@@ -42,5 +42,8 @@ abstract public class BaseEmailSupport {
     public void email_tearDown(){
         mailServer.stop();
     }
+
+    abstract public int getPort();
+    abstract public String getHost();
 
 }

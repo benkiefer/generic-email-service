@@ -6,6 +6,7 @@ import org.burgers.email.test.support.BaseEmailSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,6 +27,12 @@ public class TemplateRequestTest extends BaseEmailSupport {
     private static final String FROM = "from@test.com";
     private static final String SUBJECT = "this is a subject";
     public static final String TEMPLATE_NAME = "test.template";
+
+    @Value("${email.integration.email.server.host}")
+    private String host;
+
+    @Value("${email.integration.email.server.port}")
+    private int port;
 
     @Autowired
     private EmailRequestClient emailRequestClient;
@@ -59,4 +66,13 @@ public class TemplateRequestTest extends BaseEmailSupport {
         return request;
     }
 
+    @Override
+    public int getPort() {
+        return port;
+    }
+
+    @Override
+    public String getHost() {
+        return host;
+    }
 }

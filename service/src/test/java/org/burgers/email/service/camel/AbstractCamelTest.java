@@ -5,19 +5,25 @@ import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.ToDefinition;
 import org.burgers.email.test.support.BaseEmailSupport;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.subethamail.wiser.Wiser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:contexts/test-applicationContext.xml"})
 abstract public class AbstractCamelTest extends BaseEmailSupport {
+    @Value("${email.service.email.server.host}")
+    private String host;
+
+    @Value("${email.service.email.server.port}")
+    private int port;
+
     @Autowired
     protected ModelCamelContext camelContext;
+
     protected ProducerTemplate producerTemplate;
 
     @Before
@@ -65,4 +71,13 @@ abstract public class AbstractCamelTest extends BaseEmailSupport {
         }
     }
 
+    @Override
+    public int getPort() {
+        return port;
+    }
+
+    @Override
+    public String getHost() {
+        return host;
+    }
 }
