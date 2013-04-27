@@ -36,8 +36,8 @@
             </dependency>
 
             <dependency>
-            	<groupId>org.powermock</groupId>
-            	<artifactId>powermock-module-junit4</artifactId>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
                 <version>${powermock-api-mockito.version}</version>
             </dependency>
 
@@ -48,15 +48,15 @@
             </dependency>
 
             <dependency>
-            	<groupId>org.subethamail</groupId>
-            	<artifactId>subethasmtp-wiser</artifactId>
-            	<version>1.2</version>
+                <groupId>org.subethamail</groupId>
+                <artifactId>subethasmtp-wiser</artifactId>
+                <version>1.2</version>
             </dependency>
 
             <dependency>
-            	<groupId>org.powermock</groupId>
-            	<artifactId>powermock-api-mockito</artifactId>
-            	<version>${powermock-api-mockito.version}</version>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${powermock-api-mockito.version}</version>
             </dependency>
 
             <dependency>
@@ -151,8 +151,8 @@
             </dependency>
 
             <dependency>
-            	<groupId>org.burgers</groupId>
-            	<artifactId>email-test-support</artifactId>
+                <groupId>org.burgers</groupId>
+                <artifactId>email-test-support</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -163,8 +163,8 @@
             </dependency>
 
             <dependency>
-              <groupId>org.apache.camel</groupId>
-              <artifactId>camel-xstream</artifactId>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-xstream</artifactId>
                 <version>${camel.version}</version>
             </dependency>
 
@@ -202,4 +202,16 @@
 
     </dependencyManagement>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
