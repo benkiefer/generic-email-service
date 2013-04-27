@@ -17,6 +17,8 @@ abstract public class BaseEmailSupport {
     @Before
     public void email_setup() {
         mailServer = new Wiser();
+        mailServer.setHostname("127.0.0.1");
+        mailServer.setPort(25);
         mailServer.start();
     }
 
