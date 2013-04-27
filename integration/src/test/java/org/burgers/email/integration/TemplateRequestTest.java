@@ -8,13 +8,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.subethamail.wiser.WiserMessage;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
@@ -36,7 +34,7 @@ public class TemplateRequestTest extends BaseEmailSupport {
     public void send_message() throws MessagingException, IOException, InterruptedException {
         emailRequestClient.send(createTemplateRequest());
 
-        Thread.sleep(10000);
+        Thread.sleep(3000);
 
         assertMessageCount(1);
 

@@ -1,4 +1,7 @@
 ##Generic Email Service
+
+[![Build Status](https://secure.travis-ci.org/benkiefer/generic-email-service.png?branch=master)](http://travis-ci.org/benkiefer/generic-email-service)
+
 This project is a simple queue-based email service. You point it at your email server, hook it to a queue, and send it XML messages with the appropriate metadata.
 
 The project is a Maven-generated WAR so you can:
