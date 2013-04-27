@@ -72,34 +72,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <id>copy-war-to-lib-folder</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.burgers</groupId>
-                                    <artifactId>generic-email-service</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
-                                    <destFileName>emailer.war</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.activemq.tooling</groupId>
                 <artifactId>activemq-maven-plugin</artifactId>
                 <version>5.8.0</version>
@@ -134,7 +106,7 @@
                     <webAppConfig>
                         <contextPath>/emailer</contextPath>
                     </webAppConfig>
-                    <war>${project.build.directory}/dependencies/emailer.war</war>
+                    <war>${basedir}/../service/target/generic-email-service-${project.version}.war</war>
                 </configuration>
                 <executions>
                     <execution>
