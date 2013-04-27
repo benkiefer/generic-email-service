@@ -34,7 +34,7 @@ public class TemplateRequestTest extends BaseEmailSupport {
     public void send_message() throws MessagingException, IOException, InterruptedException {
         emailRequestClient.send(createTemplateRequest());
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         assertMessageCount(1);
 
