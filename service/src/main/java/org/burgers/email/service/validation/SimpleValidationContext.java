@@ -1,18 +1,15 @@
 package org.burgers.email.service.validation;
 
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SimpleValidationContext implements ValidationContext{
-    private Map<String, Set<String>> errorMap = new HashMap<String, Set<String>>();
+    private Map<String, Set<String>> errorMap = new LinkedHashMap<String, Set<String>>();
 
     @Override
     public void error(String field, String errorMessage) {
         if (!errorMap.containsKey(field)){
-            errorMap.put(field, new HashSet<String>());
+            errorMap.put(field, new TreeSet<String>());
         }
         errorMap.get(field).add(errorMessage);
     }

@@ -31,6 +31,7 @@
 
         <camel:onException>
             <camel:exception>org.burgers.email.service.TemplateProcessingException</camel:exception>
+            <camel:exception>org.burgers.email.service.ValidationException</camel:exception>
             <camel:handled>
                 <camel:constant>true</camel:constant>
             </camel:handled>
@@ -49,6 +50,7 @@
             <camel:from ref="emailIn"/>
 
             <camel:unmarshal ref="xstream-default"/>
+            <camel:bean id="validationManagerBean" ref="validationManager" method="validate"/>
             <camel:bean id="emailSenderBean" ref="emailSender" method="sendMessage"/>
         </camel:route>
 

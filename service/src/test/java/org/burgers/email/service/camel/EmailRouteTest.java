@@ -71,6 +71,17 @@ public class EmailRouteTest extends AbstractCamelTest {
 
     @Test
     @DirtiesContext
+    public void sendMessage_validation_error() throws Exception {
+        failureEndpoint.setExpectedMessageCount(1);
+
+        producerTemplate.sendBody(NEW_FROM_URI, new XStream().toXML(new TemplateEmailRequest()));
+        assertEquals(0, mailServer.getMessages().size());
+
+        failureEndpoint.assertIsSatisfied();
+    }
+
+    @Test
+    @DirtiesContext
     public void sendMessage_smtp_connection_error() throws Exception {
         mailServer.stop();
 
