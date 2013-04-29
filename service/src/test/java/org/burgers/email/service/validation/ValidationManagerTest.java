@@ -27,6 +27,8 @@ public class ValidationManagerTest {
     private SimpleValidationContext context;
     @Mock
     private ToAddressStrategy toAddressStrategy;
+    @Mock
+    private FromAddressStrategy fromAddressStrategy;
     private TemplateEmailRequest request;
 
     @Before
@@ -39,6 +41,7 @@ public class ValidationManagerTest {
         Mockito.when(context.hasErrors()).thenReturn(false);
         manager.validate(request);
         Mockito.verify(toAddressStrategy).validate(request, context);
+        Mockito.verify(fromAddressStrategy).validate(request, context);
         Mockito.verifyNoMoreInteractions(toAddressStrategy, messageBuilder);
     }
 
@@ -54,6 +57,7 @@ public class ValidationManagerTest {
         }
 
         Mockito.verify(toAddressStrategy).validate(request, context);
+        Mockito.verify(fromAddressStrategy).validate(request, context);
         Mockito.verify(messageBuilder).build(context);
         Mockito.verifyNoMoreInteractions(toAddressStrategy, messageBuilder);
     }

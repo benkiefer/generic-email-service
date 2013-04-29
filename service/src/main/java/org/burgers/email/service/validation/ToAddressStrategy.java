@@ -30,11 +30,4 @@ public class ToAddressStrategy implements ValidationStrategy<TemplateEmailReques
         }
     }
 
-    public void setEmailAddressFormatRule(EmailAddressFormatRule emailAddressFormatRule) {
-        this.emailAddressFormatRule = emailAddressFormatRule;
-    }
-
-    public void setRequiredFieldRule(RequiredFieldRule requiredFieldRule) {
-        this.requiredFieldRule = requiredFieldRule;
-    }
 }

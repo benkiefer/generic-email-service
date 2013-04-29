@@ -10,12 +10,15 @@ public class ValidationManager {
     @Autowired
     private ToAddressStrategy toAddressStrategy;
     @Autowired
+    private FromAddressStrategy fromAddressStrategy;
+    @Autowired
     private ValidationMessageBuilder validationMessageBuilder;
 
     public void validate(TemplateEmailRequest request) {
         SimpleValidationContext context = new SimpleValidationContext();
 
         toAddressStrategy.validate(request, context);
+        fromAddressStrategy.validate(request, context);
 
         if (context.hasErrors()) {
             String message = validationMessageBuilder.build(context);
