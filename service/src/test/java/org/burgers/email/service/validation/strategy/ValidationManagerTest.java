@@ -1,7 +1,10 @@
-package org.burgers.email.service.validation;
+package org.burgers.email.service.validation.strategy;
 
 import org.burgers.email.client.TemplateEmailRequest;
 import org.burgers.email.service.ValidationException;
+import org.burgers.email.service.validation.SimpleValidationContext;
+import org.burgers.email.service.validation.ValidationManager;
+import org.burgers.email.service.validation.ValidationMessageBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +32,9 @@ public class ValidationManagerTest {
     private ToAddressStrategy toAddressStrategy;
     @Mock
     private FromAddressStrategy fromAddressStrategy;
+    @Mock
+    private TemplateNameStrategy templateNameStrategy;
+
     private TemplateEmailRequest request;
 
     @Before
@@ -42,6 +48,7 @@ public class ValidationManagerTest {
         manager.validate(request);
         Mockito.verify(toAddressStrategy).validate(request, context);
         Mockito.verify(fromAddressStrategy).validate(request, context);
+        Mockito.verify(templateNameStrategy).validate(request, context);
         Mockito.verifyNoMoreInteractions(toAddressStrategy, messageBuilder);
     }
 
@@ -58,6 +65,7 @@ public class ValidationManagerTest {
 
         Mockito.verify(toAddressStrategy).validate(request, context);
         Mockito.verify(fromAddressStrategy).validate(request, context);
+        Mockito.verify(templateNameStrategy).validate(request, context);
         Mockito.verify(messageBuilder).build(context);
         Mockito.verifyNoMoreInteractions(toAddressStrategy, messageBuilder);
     }

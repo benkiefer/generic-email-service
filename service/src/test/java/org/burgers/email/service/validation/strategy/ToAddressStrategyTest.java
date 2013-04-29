@@ -1,8 +1,10 @@
-package org.burgers.email.service.validation;
+package org.burgers.email.service.validation.strategy;
 
 import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.service.validation.ValidationContext;
 import org.burgers.email.service.validation.rule.EmailAddressFormatRule;
 import org.burgers.email.service.validation.rule.RequiredFieldRule;
+import org.burgers.email.service.validation.strategy.ToAddressStrategy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

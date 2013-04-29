@@ -1,6 +1,7 @@
-package org.burgers.email.service.validation;
+package org.burgers.email.service.validation.strategy;
 
 import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.service.validation.ValidationContext;
 import org.burgers.email.service.validation.rule.EmailAddressFormatRule;
 import org.burgers.email.service.validation.rule.RequiredFieldRule;
 import org.springframework.beans.factory.annotation.Autowired;
