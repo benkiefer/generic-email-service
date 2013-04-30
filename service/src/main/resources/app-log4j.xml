@@ -7,24 +7,24 @@
         </layout>
     </appender>
 
-    <!--<appender name="error-file" class="org.apache.log4j.RollingFileAppender">-->
-        <!--<param name="File" value="c:/temp/sample.log"/>-->
-        <!--<param name="Threshold" value="DEBUG" />-->
-        <!--<param name="MaxFileSize" value="10MB"/>-->
-        <!--<layout class="org.apache.log4j.PatternLayout">-->
-            <!--<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %-10t [%-40.40c] %x - %m%n"/>-->
-        <!--</layout>-->
-    <!--</appender>-->
+    <appender name="error-file" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="${email.service.log.file.location}"/>
+        <param name="Threshold" value="DEBUG" />
+        <param name="MaxFileSize" value="10MB"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %-10t [%-40.40c] %x - %m%n"/>
+        </layout>
+    </appender>
 
     <logger name="org.burgers" additivity="false">
         <level value="info"/>
         <appender-ref ref="stdout"/>
-        <!--<appender-ref ref="error-file"/>-->
+        <appender-ref ref="error-file"/>
     </logger>
 
     <root>
         <priority value="error"/>
         <appender-ref ref="stdout"/>
-        <!--<appender-ref ref="error-file"/>-->
+        <appender-ref ref="error-file"/>
     </root>
 </log4j:configuration>

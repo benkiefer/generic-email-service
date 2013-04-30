@@ -26,8 +26,6 @@ public class ValidationMessageBuilderTest {
     public void build(){
         String message = builder.build(context);
 
-        System.out.println(message);
-
         assertEquals("\nMessage Validation Failed:\n\tfield1:\n\t\tmissing\n\tfield2:\n\t\tfail1\n\t\tfail2\n", message);
     }
 
