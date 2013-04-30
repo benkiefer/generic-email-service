@@ -30,8 +30,8 @@
         </camel:dataFormats>
 
         <camel:onException>
-            <camel:exception>org.burgers.email.service.TemplateProcessingException</camel:exception>
             <camel:exception>org.burgers.email.service.ValidationException</camel:exception>
+            <camel:exception>org.burgers.email.service.TemplateProcessingException</camel:exception>
             <camel:handled>
                 <camel:constant>true</camel:constant>
             </camel:handled>
@@ -56,13 +56,13 @@
 
         <camel:route id="failureRoute">
             <camel:from ref="failureUri"/>
-            <camel:to uri="log:org.burgers.email?level=ERROR&amp;showAll=true"/>
+            <camel:to uri="log:org.burgers?level=ERROR&amp;showAll=true&amp;multiline=true&amp;maxChars=10000"/>
             <camel:to ref="DLQ"/>
         </camel:route>
 
         <camel:route id="retryRoute">
             <camel:from ref="retryUri"/>
-            <camel:to uri="log:org.burgers.email?level=ERROR&amp;showAll=true"/>
+            <camel:to uri="log:org.burgers?level=ERROR&amp;showAll=true&amp;multiline=true&amp;maxChars=10000"/>
             <camel:to ref="retryQueue"/>
         </camel:route>
 

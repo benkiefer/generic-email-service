@@ -32,11 +32,4 @@ public class ValidationManager {
         }
     }
 
-    public void setToAddressStrategy(ToAddressStrategy toAddressStrategy) {
-        this.toAddressStrategy = toAddressStrategy;
-    }
-
-    public void setValidationMessageBuilder(ValidationMessageBuilder validationMessageBuilder) {
-        this.validationMessageBuilder = validationMessageBuilder;
-    }
 }

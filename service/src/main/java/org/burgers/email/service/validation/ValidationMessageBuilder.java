@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 public class ValidationMessageBuilder {
     public String build(ValidationContext context){
         StringBuilder builder = new StringBuilder();
-        builder.append("Message Validation Failed:\n");
+        builder.append("\nMessage Validation Failed:\n");
         for (String field : context.getFieldsInError()) {
             builder.append(String.format("\t%s:\n", field));
             for (String error : context.getErrorsForField(field)) {
                 builder.append(String.format("\t\t%s\n", error));
             }
         }
-        return builder.toString().trim();
+        return builder.toString();
     }
 }
