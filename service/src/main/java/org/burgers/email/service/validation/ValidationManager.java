@@ -2,29 +2,25 @@ package org.burgers.email.service.validation;
 
 import org.burgers.email.client.EmailTemplateRequest;
 import org.burgers.email.service.ValidationException;
-import org.burgers.email.service.validation.strategy.FromAddressStrategy;
-import org.burgers.email.service.validation.strategy.TemplateNameStrategy;
-import org.burgers.email.service.validation.strategy.ToAddressStrategy;
+import org.burgers.email.service.validation.strategy.ValidationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ValidationManager {
     @Autowired
-    private ToAddressStrategy toAddressStrategy;
-    @Autowired
-    private FromAddressStrategy fromAddressStrategy;
+    private List<ValidationStrategy<EmailTemplateRequest>> strategies;
     @Autowired
     private ValidationMessageBuilder validationMessageBuilder;
-    @Autowired
-    private TemplateNameStrategy templateNameStrategy;
 
     public void validate(EmailTemplateRequest request) {
         SimpleValidationContext context = new SimpleValidationContext();
 
-        toAddressStrategy.validate(request, context);
-        fromAddressStrategy.validate(request, context);
-        templateNameStrategy.validate(request, context);
+        for (ValidationStrategy<EmailTemplateRequest> strategy : strategies) {
+            strategy.validate(request, context);
+        }
 
         if (context.hasErrors()) {
             String message = validationMessageBuilder.build(context);
@@ -32,4 +28,7 @@ public class ValidationManager {
         }
     }
 
+    public void setStrategies(List<ValidationStrategy<EmailTemplateRequest>> strategies) {
+        this.strategies = strategies;
+    }
 }

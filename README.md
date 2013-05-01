@@ -9,10 +9,7 @@ The project is a Maven-generated WAR so you can:
  - check out the source and hack it yourself, or
  - depend on the war and overlay the appropriate files.
 
-##Todo
- - Validation
-
-##Generating the Client
+##Using the Client
 
 The simplest way to create the client is to use the custom namespace provided in your XML application context.
 

@@ -15,6 +15,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -29,16 +30,13 @@ public class ValidationManagerTest {
     @Mock
     private SimpleValidationContext context;
     @Mock
-    private ToAddressStrategy toAddressStrategy;
-    @Mock
-    private FromAddressStrategy fromAddressStrategy;
-    @Mock
-    private TemplateNameStrategy templateNameStrategy;
+    private ValidationStrategy<EmailTemplateRequest> strategy;
 
     private EmailTemplateRequest request;
 
     @Before
     public void setup() throws Exception {
+        manager.setStrategies(asList(strategy));
         PowerMockito.whenNew(SimpleValidationContext.class).withNoArguments().thenReturn(context);
     }
 
@@ -46,10 +44,8 @@ public class ValidationManagerTest {
     public void validate(){
         Mockito.when(context.hasErrors()).thenReturn(false);
         manager.validate(request);
-        Mockito.verify(toAddressStrategy).validate(request, context);
-        Mockito.verify(fromAddressStrategy).validate(request, context);
-        Mockito.verify(templateNameStrategy).validate(request, context);
-        Mockito.verifyNoMoreInteractions(toAddressStrategy, messageBuilder);
+        Mockito.verify(strategy).validate(request, context);
+        Mockito.verifyNoMoreInteractions(strategy, messageBuilder);
     }
 
     @Test
@@ -63,11 +59,9 @@ public class ValidationManagerTest {
             assertEquals(MESSAGE, e.getMessage());
         }
 
-        Mockito.verify(toAddressStrategy).validate(request, context);
-        Mockito.verify(fromAddressStrategy).validate(request, context);
-        Mockito.verify(templateNameStrategy).validate(request, context);
+        Mockito.verify(strategy).validate(request, context);
         Mockito.verify(messageBuilder).build(context);
-        Mockito.verifyNoMoreInteractions(toAddressStrategy, messageBuilder);
+        Mockito.verifyNoMoreInteractions(strategy, messageBuilder);
     }
 
 }
