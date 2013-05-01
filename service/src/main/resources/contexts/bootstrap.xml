@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:email-service.properties"/>
         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+    </bean>
+
+    <bean id="systemPropertiesLoader"
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" value="#{@systemProperties}" />
+        <property name="targetMethod" value="putAll" />
+        <property name="arguments">
+            <util:properties location="classpath:email-service.properties" />
+        </property>
     </bean>
 
     <import resource="classpath:contexts/scanning-context.xml"/>

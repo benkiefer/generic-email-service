@@ -7,7 +7,7 @@
         </layout>
     </appender>
 
-    <appender name="error-file" class="org.apache.log4j.RollingFileAppender">
+    <appender name="file" class="org.apache.log4j.RollingFileAppender">
         <param name="File" value="${email.service.log.file.location}"/>
         <param name="Threshold" value="DEBUG" />
         <param name="MaxFileSize" value="10MB"/>
@@ -19,12 +19,12 @@
     <logger name="org.burgers" additivity="false">
         <level value="info"/>
         <appender-ref ref="stdout"/>
-        <appender-ref ref="error-file"/>
+        <appender-ref ref="file"/>
     </logger>
 
     <root>
         <priority value="error"/>
         <appender-ref ref="stdout"/>
-        <appender-ref ref="error-file"/>
+        <appender-ref ref="file"/>
     </root>
 </log4j:configuration>
