@@ -23,6 +23,6 @@ You can also provide an optional "id" attribute which will override the default 
         destination="myQueueName"
         connectionFactory-ref="connectionFactory"/>
 
-All generated beans are namespaced under the client id to avoid collisions.
+All generated beans are name-spaced under the client id to avoid collisions.
 
 As you've probably guessed, you need to provide the name of the queue/topic you want to send to, and a reference to the bean name of your "java.jms.ConnectionFactory". If you are having trouble, check out the EmailTemplateRequestTest class in the Integration module.
