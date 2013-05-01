@@ -1,10 +1,9 @@
 package org.burgers.email.service.validation.strategy;
 
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.burgers.email.service.validation.ValidationContext;
 import org.burgers.email.service.validation.rule.EmailAddressFormatRule;
 import org.burgers.email.service.validation.rule.RequiredFieldRule;
-import org.burgers.email.service.validation.strategy.FromAddressStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +24,7 @@ public class FromAddressStrategyTest {
     @Mock
     private EmailAddressFormatRule emailAddressFormatRule;
     @Mock
-    private TemplateEmailRequest emailRequest;
+    private EmailTemplateRequest emailRequest;
 
     @Before
     public void setup() {

@@ -1,7 +1,7 @@
 package org.burgers.email.integration;
 
 import org.burgers.email.client.EmailRequestClient;
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.burgers.email.test.support.BaseEmailSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,8 +54,8 @@ public class TemplateRequestTest extends BaseEmailSupport {
         assertEquals(SUBJECT, message.getSubject());
     }
 
-    private TemplateEmailRequest createTemplateRequest() {
-        TemplateEmailRequest request = new TemplateEmailRequest();
+    private EmailTemplateRequest createTemplateRequest() {
+        EmailTemplateRequest request = new EmailTemplateRequest();
         request.setSubject(SUBJECT);
         request.setTo(asList(TO));
         request.setFrom(FROM);

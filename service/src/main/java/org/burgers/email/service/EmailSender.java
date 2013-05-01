@@ -1,6 +1,6 @@
 package org.burgers.email.service;
 
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,10 +19,10 @@ public class EmailSender {
     @Autowired
     private SimpleMailMessageFactory factory;
 
-    public void sendMessage(TemplateEmailRequest templateEmailRequest){
-        String messageBody = builder.buildFrom(templateEmailRequest.getTemplateName(), templateEmailRequest.getPropertyMap());
+    public void sendMessage(EmailTemplateRequest emailTemplateRequest){
+        String messageBody = builder.buildFrom(emailTemplateRequest.getTemplateName(), emailTemplateRequest.getPropertyMap());
 
-        SimpleMailMessage message = factory.build(messageBody, templateEmailRequest);
+        SimpleMailMessage message = factory.build(messageBody, emailTemplateRequest);
 
         javaMailSender.send(message);
     }

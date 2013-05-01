@@ -1,6 +1,6 @@
 package org.burgers.email.service;
 
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +9,13 @@ import java.util.List;
 @Component
 public class SimpleMailMessageFactory {
 
-    public SimpleMailMessage build(String text, TemplateEmailRequest templateEmailRequest){
+    public SimpleMailMessage build(String text, EmailTemplateRequest emailTemplateRequest){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setSubject(templateEmailRequest.getSubject());
-        message.setFrom(templateEmailRequest.getFrom());
-        message.setBcc(toStringArray(templateEmailRequest.getBcc()));
-        message.setCc(toStringArray(templateEmailRequest.getCc()));
-        message.setTo(toStringArray(templateEmailRequest.getTo()));
+        message.setSubject(emailTemplateRequest.getSubject());
+        message.setFrom(emailTemplateRequest.getFrom());
+        message.setBcc(toStringArray(emailTemplateRequest.getBcc()));
+        message.setCc(toStringArray(emailTemplateRequest.getCc()));
+        message.setTo(toStringArray(emailTemplateRequest.getTo()));
         message.setText(text);
 
         return message;

@@ -1,6 +1,6 @@
 package org.burgers.email.service;
 
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ public class EmailSenderTest {
     @Mock
     private EmailContentBuilder builder;
     @Mock
-    private TemplateEmailRequest templateEmailRequest;
+    private EmailTemplateRequest emailTemplateRequest;
     @Mock
     private SimpleMailMessage simpleMessage;
 
@@ -39,15 +39,15 @@ public class EmailSenderTest {
     @Before
     public void setup(){
         properties = new HashMap<String, String>();
-        when(templateEmailRequest.getPropertyMap()).thenReturn(properties);
-        when(templateEmailRequest.getTemplateName()).thenReturn(TEMPLATE);
+        when(emailTemplateRequest.getPropertyMap()).thenReturn(properties);
+        when(emailTemplateRequest.getTemplateName()).thenReturn(TEMPLATE);
     }
 
     @Test
     public void sendMessage(){
         when(builder.buildFrom(TEMPLATE, properties)).thenReturn(MESSAGE);
-        when(factory.build(MESSAGE, templateEmailRequest)).thenReturn(simpleMessage);
-        emailSender.sendMessage(templateEmailRequest);
+        when(factory.build(MESSAGE, emailTemplateRequest)).thenReturn(simpleMessage);
+        emailSender.sendMessage(emailTemplateRequest);
         verify(javaMailSender).send(simpleMessage);
     }
 

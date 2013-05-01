@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TemplateEmailRequest {
+public class EmailTemplateRequest {
     private List<String> to = new ArrayList<String>();
     private String from;
     private List<String> cc = new ArrayList<String>();

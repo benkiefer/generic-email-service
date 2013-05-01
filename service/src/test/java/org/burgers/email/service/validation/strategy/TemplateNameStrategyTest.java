@@ -1,6 +1,6 @@
 package org.burgers.email.service.validation.strategy;
 
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.burgers.email.service.validation.ValidationContext;
 import org.burgers.email.service.validation.rule.RequiredFieldRule;
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class TemplateNameStrategyTest {
     @Mock
     private RequiredFieldRule requiredFieldRule;
     @Mock
-    private TemplateEmailRequest templateEmailRequest;
+    private EmailTemplateRequest emailTemplateRequest;
     @Mock
     private ValidationContext context;
 
@@ -25,8 +25,8 @@ public class TemplateNameStrategyTest {
 
     @Test
     public void valid(){
-        Mockito.when(templateEmailRequest.getTemplateName()).thenReturn(VALUE);
-        strategy.validate(templateEmailRequest, context);
+        Mockito.when(emailTemplateRequest.getTemplateName()).thenReturn(VALUE);
+        strategy.validate(emailTemplateRequest, context);
         Mockito.verify(requiredFieldRule).validate(VALUE, TemplateNameStrategy.FIELD, context);
     }
 

@@ -1,6 +1,6 @@
 package org.burgers.email.service.validation.strategy;
 
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.burgers.email.service.ValidationException;
 import org.burgers.email.service.validation.SimpleValidationContext;
 import org.burgers.email.service.validation.ValidationManager;
@@ -35,7 +35,7 @@ public class ValidationManagerTest {
     @Mock
     private TemplateNameStrategy templateNameStrategy;
 
-    private TemplateEmailRequest request;
+    private EmailTemplateRequest request;
 
     @Before
     public void setup() throws Exception {

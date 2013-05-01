@@ -3,7 +3,7 @@ package org.burgers.email.service.camel;
 import com.thoughtworks.xstream.XStream;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.component.mock.MockEndpoint;
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.burgers.email.service.EmailSender;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +74,7 @@ public class EmailRouteTest extends AbstractCamelTest {
     public void sendMessage_validation_error() throws Exception {
         failureEndpoint.setExpectedMessageCount(1);
 
-        producerTemplate.sendBody(NEW_FROM_URI, new XStream().toXML(new TemplateEmailRequest()));
+        producerTemplate.sendBody(NEW_FROM_URI, new XStream().toXML(new EmailTemplateRequest()));
         assertEquals(0, mailServer.getMessages().size());
 
         failureEndpoint.assertIsSatisfied();
@@ -99,7 +99,7 @@ public class EmailRouteTest extends AbstractCamelTest {
     @DirtiesContext
     public void generic_runtime_exception() throws Exception {
         EmailSender mockEmailSender = mock(EmailSender.class);
-        doThrow(new RuntimeException("Test Kaboom!")).when(mockEmailSender).sendMessage(any(TemplateEmailRequest.class));
+        doThrow(new RuntimeException("Test Kaboom!")).when(mockEmailSender).sendMessage(any(EmailTemplateRequest.class));
         replaceBeanByIdWith("emailProcessing", "emailSenderBean", mockEmailSender);
         failureEndpoint.setExpectedMessageCount(1);
         retryEndpoint.setExpectedMessageCount(0);
@@ -111,8 +111,8 @@ public class EmailRouteTest extends AbstractCamelTest {
         retryEndpoint.assertIsSatisfied();
     }
 
-    private TemplateEmailRequest createFakeRequest(String templateName){
-        TemplateEmailRequest request = new TemplateEmailRequest();
+    private EmailTemplateRequest createFakeRequest(String templateName){
+        EmailTemplateRequest request = new EmailTemplateRequest();
         request.setTo(asList(TO));
         request.setFrom(FROM);
         request.setSubject(SUBJECT);

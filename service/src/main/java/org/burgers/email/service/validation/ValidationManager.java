@@ -1,6 +1,6 @@
 package org.burgers.email.service.validation;
 
-import org.burgers.email.client.TemplateEmailRequest;
+import org.burgers.email.client.EmailTemplateRequest;
 import org.burgers.email.service.ValidationException;
 import org.burgers.email.service.validation.strategy.FromAddressStrategy;
 import org.burgers.email.service.validation.strategy.TemplateNameStrategy;
@@ -19,7 +19,7 @@ public class ValidationManager {
     @Autowired
     private TemplateNameStrategy templateNameStrategy;
 
-    public void validate(TemplateEmailRequest request) {
+    public void validate(EmailTemplateRequest request) {
         SimpleValidationContext context = new SimpleValidationContext();
 
         toAddressStrategy.validate(request, context);
