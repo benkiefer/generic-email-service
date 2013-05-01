@@ -11,8 +11,6 @@ The project is a Maven-generated WAR so you can:
 
 ##Todo
  - Validation
- - Property descriptions
- - End to end integration tests at the container level
 
 ##Generating the Client
 
