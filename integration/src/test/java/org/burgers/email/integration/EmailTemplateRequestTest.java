@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:contexts/integration-test-context.xml"})
-public class TemplateRequestTest extends BaseEmailSupport {
+public class EmailTemplateRequestTest extends BaseEmailSupport {
     private static final String TO = "to@test.com";
     private static final String FROM = "from@test.com";
     private static final String SUBJECT = "this is a subject";

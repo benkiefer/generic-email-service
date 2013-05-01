@@ -20,10 +20,12 @@ The simplest way to create the client is to use the custom namespace provided in
         destination="myQueueName"
         connectionFactory-ref="connectionFactory"/>
 
-You can also provide an optional "id" attribute which will override the default value of "genericEmailServiceClient".
+You can also provide an optional "id" attribute which will override the default id of "genericEmailServiceClient".
 
     <email:client id="myId"
         destination="myQueueName"
         connectionFactory-ref="connectionFactory"/>
 
-As you've probably guessed, you need to provide the name of the queue/topic you want to send to, and a reference to the bean name of your "java.jms.ConnectionFactory". If you are having trouble, an example in an integration test is forthcoming. All generated beans are namespaced under the client id to avoid collisions.gst
+All generated beans are namespaced under the client id to avoid collisions.
+
+As you've probably guessed, you need to provide the name of the queue/topic you want to send to, and a reference to the bean name of your "java.jms.ConnectionFactory". If you are having trouble, check out the EmailTemplateRequestTest class in the Integration module.
