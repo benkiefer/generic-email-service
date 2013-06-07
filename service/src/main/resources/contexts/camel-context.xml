@@ -2,17 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:camel="http://camel.apache.org/schema/spring"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring-2.11.0.xsd">
+
+    <bean id="mailSendErrorRedeliveryPolicy" class="org.apache.camel.processor.RedeliveryPolicy">
+        <property name="maximumRedeliveries" value="${email.service.max.redeliveries}"/>
+        <property name="useExponentialBackOff" value="${email.service.use.exponential.back.off}"/>
+    </bean>
 
     <camel:camelContext id="emailServiceCamel" errorHandlerRef="dlqErrorHandler">
         <camel:errorHandler id="dlqErrorHandler" deadLetterUri="direct:errors"
                             type="DeadLetterChannel" useOriginalMessage="true"/>
-
-        <camel:errorHandler id="smtpHandler" deadLetterUri="direct:retry"
-                            type="DeadLetterChannel" useOriginalMessage="true">
-            <camel:redeliveryPolicy maximumRedeliveries="${email.service.max.redeliveries}"
-                                    useExponentialBackOff="${email.service.use.exponential.back.off}"/>
-        </camel:errorHandler>
 
         <camel:endpoint id="emailIn" uri="jms:queue:${email.service.in.queue}"/>
         <camel:endpoint id="DLQ" uri="jms:queue:${email.service.errors.queue}?jmsMessageType=Text"/>
@@ -33,7 +32,7 @@
             <camel:to ref="failureUri"/>
         </camel:onException>
 
-        <camel:onException>
+        <camel:onException redeliveryPolicyRef="mailSendErrorRedeliveryPolicy">
             <camel:exception>org.springframework.mail.MailSendException</camel:exception>
             <camel:handled>
                 <camel:constant>true</camel:constant>
